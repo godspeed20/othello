@@ -1,7 +1,7 @@
 # Assumptions/Notes:
 
 * It will provide more details in the event of an invalid move as the reason is available.
-* After every command (including invalid moves) it will re-show the current game board.
+* On finishing a game the app quits. 
 * TODO: With my limited Maven experience, I found every time I built anything it seemed to assumed I was using java 1.5 for some reason so I've added the maven compiler plugin to get around this. It may not be necessary for you to build, feel free to remove as per your situation.
 
 # To run:
