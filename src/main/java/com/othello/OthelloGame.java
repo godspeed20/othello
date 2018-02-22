@@ -28,7 +28,7 @@ public class OthelloGame {
     void verifyCanContinueGame(OutputWriter output) {
         if (board.bestNextMove().isPresent()) return;
 
-        output.writeLine("No moves available for player '" + currentPlayer().playerName + "', skipping");
+        output.writeLine("No moves available for player '" + currentPlayer() + "', skipping");
         board = board.skipMove();
 
         if (!board.bestNextMove().isPresent()) gameOverSummary(output);
@@ -36,13 +36,13 @@ public class OthelloGame {
 
     public void suggestNextMove(OutputWriter output) {
         Optional<Coordinate> bestNextMove = board.bestNextMove();
-        bestNextMove.ifPresent(coordinate -> output.writeLine("Player " + currentPlayer().playerName + " best next move: " + coordinate.coordinate()));
+        bestNextMove.ifPresent(coordinate -> output.writeLine("Player " + currentPlayer() + " best next move: " + coordinate.coordinate()));
     }
 
     private void gameOverSummary(OutputWriter output) {
         output.writeLine("No further moves possible. Game over!");
 
-        Player winner = board.pointsFor(Player.A) > board.pointsFor(Player.B) ? Player.A : Player.B;
-        output.writeLine("Player " + winner.playerName + " wins! ( " + board.pointsFor(winner) + " vs " + board.pointsFor(Player.opponentOf(winner)) + " )");
+        Player winner = board.pointsFor(Player.X) > board.pointsFor(Player.O) ? Player.X : Player.O;
+        output.writeLine("Player " + winner + " wins! ( " + board.pointsFor(winner) + " vs " + board.pointsFor(Player.opponentOf(winner)) + " )");
     }
 }

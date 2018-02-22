@@ -26,7 +26,7 @@ public class Board {
     }
 
     public static Board newBoard() {
-        return new Board(Player.A, newHashMap())
+        return new Board(Player.X, newHashMap())
                 .applyWithoutQuestionOrCalculation("e4")
                 .applyWithoutQuestionOrCalculation("d4")
                 .applyWithoutQuestionOrCalculation("d5")
@@ -48,7 +48,7 @@ public class Board {
             for (String x : XAXIS) {
                 Coordinate coordinate = generate(x + y);
                 builder.append(positions.containsKey(coordinate) ?
-                        positions.get(coordinate).playerName :
+                        positions.get(coordinate) :
                         EMPTY_GRID_CELL);
             }
             output.writeLine(builder.toString());

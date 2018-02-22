@@ -13,17 +13,20 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 public class BoardTest {
-    @Test
-    public void newBoardHasDefaultPoints() {
+    private static void assertCanBePlayedByPlayer(String position) {
         Board board = Board.newBoard();
-        assertThat(board.pointsFor(Player.A), equalTo(2L));
-        assertThat(board.pointsFor(Player.B), equalTo(2L));
+        Board newBoard = board.validateAndApply(position);
+
+        assertThat(newBoard.currentPlayer, equalTo(Player.O));
+        assertThat(newBoard.pointsFor(Player.X), equalTo(4L));
+        assertThat(newBoard.pointsFor(Player.O), equalTo(1L));
     }
 
     @Test
-    public void newBoardNextPlayerIsA() {
+    public void newBoardHasDefaultPoints() {
         Board board = Board.newBoard();
-        assertThat(board.currentPlayer, equalTo(Player.A));
+        assertThat(board.pointsFor(Player.X), equalTo(2L));
+        assertThat(board.pointsFor(Player.O), equalTo(2L));
     }
 
     @Test
@@ -261,12 +264,9 @@ public class BoardTest {
         }
     }
 
-    private static void assertCanBePlayedByPlayer(String position) {
+    @Test
+    public void newBoardNextPlayerIsA() {
         Board board = Board.newBoard();
-        Board newBoard = board.validateAndApply(position);
-
-        assertThat(newBoard.currentPlayer, equalTo(Player.B));
-        assertThat(newBoard.pointsFor(Player.A), equalTo(4L));
-        assertThat(newBoard.pointsFor(Player.B), equalTo(1L));
+        assertThat(board.currentPlayer, equalTo(Player.X));
     }
 }

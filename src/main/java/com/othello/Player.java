@@ -1,15 +1,9 @@
 package com.othello;
 
 public enum Player {
-    A("X"), B("O");
-
-    public final String playerName;
-
-    Player(String playerName) {
-        this.playerName = playerName;
-    }
+    X, O;
 
     public static Player opponentOf(Player player) {
-        return player.equals(A) ? B : A;
+        return player.equals(X) ? O : X;
     }
 }
