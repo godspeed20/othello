@@ -2,8 +2,6 @@ package com.othello;
 
 import com.othello.writer.OutputWriter;
 
-import java.util.Optional;
-
 public class OthelloGame {
     private Board board;
 
@@ -19,30 +17,19 @@ public class OthelloGame {
         board.render(output);
     }
 
-    public void applyCommand(String line, OutputWriter output) {
+    public void applyCommand(String line) {
         board = board.validateAndApply(line);
-
-        verifyCanContinueGame(output);
     }
 
-    void verifyCanContinueGame(OutputWriter output) {
-        if (board.bestNextMove().isPresent()) return;
-
-        output.writeLine("No moves available for player '" + currentPlayer() + "', skipping");
+    public void skipMove() {
         board = board.skipMove();
-
-        if (!board.bestNextMove().isPresent()) gameOverSummary(output);
     }
 
-    public void suggestNextMove(OutputWriter output) {
-        Optional<Coordinate> bestNextMove = board.bestNextMove();
-        bestNextMove.ifPresent(coordinate -> output.writeLine("Player " + currentPlayer() + " best next move: " + coordinate.coordinate()));
+    public boolean currentPlayerHasMovesAvailable() {
+        return board.canMakeAnotherMove();
     }
 
-    private void gameOverSummary(OutputWriter output) {
-        output.writeLine("No further moves possible. Game over!");
-
-        Player winner = board.pointsFor(Player.X) > board.pointsFor(Player.O) ? Player.X : Player.O;
-        output.writeLine("Player " + winner + " wins! ( " + board.pointsFor(winner) + " vs " + board.pointsFor(Player.opponentOf(winner)) + " )");
+    public long pointsFor(Player player) {
+        return board.pointsFor(player);
     }
 }

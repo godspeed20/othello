@@ -18,14 +18,6 @@ public class OthelloApp {
         game = new OthelloGame(Board.newBoard());
     }
 
-    public static void main(String[] args) {
-        Reader input = new InputStreamReader(System.in);
-        OutputWriter output = new OutputWriter();
-
-        OthelloApp app = new OthelloApp(input, output);
-        app.run();
-    }
-
     private void userGuide(OutputWriter output) {
         output.writeLine("");
         output.writeLine("User Guide: ");
@@ -37,49 +29,73 @@ public class OthelloApp {
         output.writeLine("n - New Game");
         output.writeLine("g - User Guide");
         output.writeLine("coordinate - place your next piece");
-        output.writeLine("h - Player hint");
         output.writeLine("q - Quit Game");
         output.writeLine("");
     }
 
+    public static void main(String[] args) {
+        Reader input = new InputStreamReader(System.in);
+        OutputWriter output = new OutputWriter();
+
+        OthelloApp app = new OthelloApp(input, output);
+        app.run();
+    }
+
     public void run() {
         output.writeLine("Welcome to Othello");
-        output.writeLine("");
 
         Scanner scanner = new Scanner(input);
-        String line = "";
+        String line = "n";
 
         while (!line.equals("q")) {
-            game.renderBoard(output);
-            output.write("Player " + game.currentPlayer() + " move: ");
-
-            line = scanner.nextLine().toLowerCase();
-
             switch (line) {
                 case "n":
                     game = new OthelloGame(Board.newBoard());
                     output.writeLine("");
                     output.writeLine("Starting New Game");
+                    game.renderBoard(output);
                     break;
                 case "g":
                     userGuide(output);
                     break;
                 case "q":
                     break;
-                case "h":
-                    output.writeLine("");
-                    game.suggestNextMove(output);
-                    break;
                 default:
                     try {
-                        game.applyCommand(line, output);
+                        game.applyCommand(line);
+                        game.renderBoard(output);
                     } catch (InvalidCommandException e) {
                         output.writeLine("Invalid move '" + line + "', please try again. Reason: " + e.getMessage());
                     }
                     break;
             }
+
+            verifyCurrentPlayerCanPlay(output);
+
+            if (!game.currentPlayerHasMovesAvailable()) {
+                gameOverSummary(output);
+                line = "q";
+            }else {
+                output.write("Player " + game.currentPlayer() + " move: ");
+                line = scanner.nextLine().toLowerCase();
+            }
+
         }
         output.writeLine("");
         output.writeLine("Thank you for playing. Goodbye!");
+    }
+
+    private void verifyCurrentPlayerCanPlay(OutputWriter output) {
+        if (game.currentPlayerHasMovesAvailable()) return;
+
+        output.writeLine("No moves available for player '" + game.currentPlayer() + "', skipping");
+        game.skipMove();
+    }
+
+    private void gameOverSummary(OutputWriter output) {
+        output.writeLine("No further moves possible. Game over!");
+
+        Player winner = game.pointsFor(Player.X) > game.pointsFor(Player.O) ? Player.X : Player.O;
+        output.writeLine("Player " + winner + " wins! ( " + game.pointsFor(winner) + " vs " + game.pointsFor(Player.opponentOf(winner)) + " )");
     }
 }

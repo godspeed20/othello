@@ -3,11 +3,8 @@ package com.othello;
 import com.othello.exceptions.NonPermittedMoveException;
 import com.othello.writer.OutputWriter;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -97,11 +94,11 @@ public class Board {
     private Predicate<Coordinate> coordinatesThatSurroundOpponent(Coordinate startCoordinate) {
         return nextCoordinate -> {
             List<Coordinate> restOfLine = followTheLine(startCoordinate, nextCoordinate);
-            AtomicBoolean passedEmptyCell = new AtomicBoolean(false);
-            return restOfLine.stream().anyMatch(line -> {
-                if (!positions.containsKey(line)) passedEmptyCell.set(true);
-                return !passedEmptyCell.get() && positions.get(line) == currentPlayer;
-            });
+            for (Coordinate coordinate : restOfLine) {
+                if (!positions.containsKey(coordinate)) return false;
+                if (positions.get(coordinate) == currentPlayer) return true;
+            }
+            return false;
         };
     }
 
@@ -116,7 +113,7 @@ public class Board {
         return positions.values().stream().filter(s -> s == player).count();
     }
 
-    public Optional<Coordinate> bestNextMove() {
+    public boolean canMakeAnotherMove() {
         Map<Long, Coordinate> possibleMoves = newHashMap();
 
         for (String y : YAXIS) {
@@ -128,8 +125,7 @@ public class Board {
                 }
             }
         }
-        if (possibleMoves.size() < 1) return Optional.empty();
-        return Optional.of(possibleMoves.get(Collections.max(possibleMoves.keySet())));
+        return possibleMoves.size() > 0;
     }
 
     public Board skipMove() {
