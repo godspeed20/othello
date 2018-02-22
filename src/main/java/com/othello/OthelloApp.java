@@ -33,6 +33,11 @@ public class OthelloApp {
         output.writeLine("");
     }
 
+    public static void main(String[] args) {
+        OthelloApp app = new OthelloApp(new InputStreamReader(System.in), new OutputWriter());
+        app.run();
+    }
+
     public void run() {
         output.writeLine("Welcome to Othello");
 
@@ -43,7 +48,6 @@ public class OthelloApp {
             switch (line) {
                 case "n":
                     game = new OthelloGame(Board.newBoard());
-                    output.writeLine("");
                     output.writeLine("Starting New Game");
                     game.renderBoard(output);
                     break;
@@ -62,12 +66,12 @@ public class OthelloApp {
                     break;
             }
 
-            verifyCurrentPlayerCanPlay(output);
+            skipPlayerWhenNoMovesAvailable(output);
 
             if (!game.currentPlayerHasMovesAvailable()) {
                 gameOverSummary(output);
                 line = "q";
-            }else {
+            } else {
                 output.write("Player " + game.currentPlayer() + " move: ");
                 line = scanner.nextLine().toLowerCase();
             }
@@ -77,13 +81,6 @@ public class OthelloApp {
         output.writeLine("Thank you for playing. Goodbye!");
     }
 
-    private void verifyCurrentPlayerCanPlay(OutputWriter output) {
-        if (game.currentPlayerHasMovesAvailable()) return;
-
-        output.writeLine("No moves available for player '" + game.currentPlayer() + "', skipping");
-        game.skipMove();
-    }
-
     private void gameOverSummary(OutputWriter output) {
         output.writeLine("No further moves possible. Game over!");
 
@@ -91,11 +88,10 @@ public class OthelloApp {
         output.writeLine("Player " + winner + " wins! ( " + game.pointsFor(winner) + " vs " + game.pointsFor(Player.opponentOf(winner)) + " )");
     }
 
-    public static void main(String[] args) {
-        Reader input = new InputStreamReader(System.in);
-        OutputWriter output = new OutputWriter();
+    private void skipPlayerWhenNoMovesAvailable(OutputWriter output) {
+        if (game.currentPlayerHasMovesAvailable()) return;
 
-        OthelloApp app = new OthelloApp(input, output);
-        app.run();
+        output.writeLine("No moves available for player '" + game.currentPlayer() + "', skipping");
+        game.skipMove();
     }
 }

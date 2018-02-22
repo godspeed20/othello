@@ -21,7 +21,6 @@ public class OthelloAppTest {
 
         assertThat(output.getLines(), equalTo(newArrayList(
                 "Welcome to Othello",
-                "",
                 "Starting New Game",
                 "1 --------",
                 "2 --------",
@@ -49,7 +48,6 @@ public class OthelloAppTest {
 
         assertThat(output.getLines(), equalTo(newArrayList(
                 "Welcome to Othello",
-                "",
                 "Starting New Game",
                 "1 --------",
                 "2 --------",
@@ -88,7 +86,6 @@ public class OthelloAppTest {
 
         assertThat(output.getLines(), equalTo(newArrayList(
                 "Welcome to Othello",
-                "",
                 "Starting New Game",
                 "1 --------",
                 "2 --------",
@@ -162,7 +159,6 @@ public class OthelloAppTest {
 
         assertThat(output.getLines(), equalTo(newArrayList(
                 "Welcome to Othello",
-                "",
                 "Starting New Game",
                 "1 --------",
                 "2 --------",
@@ -201,7 +197,6 @@ public class OthelloAppTest {
 
         assertThat(output.getLines(), equalTo(newArrayList(
                 "Welcome to Othello",
-                "",
                 "Starting New Game",
                 "1 --------",
                 "2 --------",
@@ -225,7 +220,6 @@ public class OthelloAppTest {
                 "  abcdefgh",
                 "",
                 "Player O move: ",
-                "",
                 "Starting New Game",
                 "1 --------",
                 "2 --------",
@@ -253,7 +247,6 @@ public class OthelloAppTest {
 
         assertThat(output.getLines(), equalTo(newArrayList(
                 "Welcome to Othello",
-                "",
                 "Starting New Game",
                 "1 --------",
                 "2 --------",
