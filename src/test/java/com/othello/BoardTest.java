@@ -138,15 +138,6 @@ public class BoardTest {
         assertCanBePlayedByPlayer("e6");
     }
 
-    private static void assertCanBePlayedByPlayer(String position) {
-        Board board = Board.newBoard();
-        Board newBoard = board.validateAndApply(position);
-
-        assertThat(newBoard.currentPlayer, equalTo(Player.O));
-        assertThat(newBoard.pointsFor(Player.X), equalTo(4L));
-        assertThat(newBoard.pointsFor(Player.O), equalTo(1L));
-    }
-
     @Test
     public void boardCanRenderItself() {
         Board board = Board.newBoard();
@@ -514,5 +505,14 @@ public class BoardTest {
         } catch (PlayerCannotSkipMoveException e) {
             assertThat(e.getMessage(), equalTo("Player X has moves left, cannot skip their turn"));
         }
+    }
+
+    private static void assertCanBePlayedByPlayer(String position) {
+        Board board = Board.newBoard();
+        Board newBoard = board.validateAndApply(position);
+
+        assertThat(newBoard.currentPlayer, equalTo(Player.O));
+        assertThat(newBoard.pointsFor(Player.X), equalTo(4L));
+        assertThat(newBoard.pointsFor(Player.O), equalTo(1L));
     }
 }
