@@ -1,6 +1,7 @@
 package com.othello;
 
 import com.othello.exceptions.NonPermittedMoveException;
+import com.othello.exceptions.PlayerCannotSkipMoveException;
 import com.othello.writer.OutputWriter;
 
 import java.util.List;
@@ -113,7 +114,7 @@ public class Board {
         return positions.values().stream().filter(s -> s == player).count();
     }
 
-    public boolean canMakeAnotherMove() {
+    public boolean playerCanMakeAMove() {
         Map<Long, Coordinate> possibleMoves = newHashMap();
 
         for (String y : YAXIS) {
@@ -129,6 +130,7 @@ public class Board {
     }
 
     public Board skipMove() {
+        if (playerCanMakeAMove()) throw new PlayerCannotSkipMoveException(currentPlayer);
         return new Board(Player.opponentOf(currentPlayer), positions);
     }
 }

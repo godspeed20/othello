@@ -1,6 +1,5 @@
 package com.othello;
 
-import com.othello.exceptions.PlayerCannotSkipMoveException;
 import com.othello.writer.OutputWriter;
 
 public class OthelloGame {
@@ -23,12 +22,11 @@ public class OthelloGame {
     }
 
     public void skipMove() {
-        if (currentPlayerHasMovesAvailable()) throw new PlayerCannotSkipMoveException(currentPlayer());
         board = board.skipMove();
     }
 
     public boolean currentPlayerHasMovesAvailable() {
-        return board.canMakeAnotherMove();
+        return board.playerCanMakeAMove();
     }
 
     public long pointsFor(Player player) {
