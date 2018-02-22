@@ -33,14 +33,6 @@ public class OthelloApp {
         output.writeLine("");
     }
 
-    public static void main(String[] args) {
-        Reader input = new InputStreamReader(System.in);
-        OutputWriter output = new OutputWriter();
-
-        OthelloApp app = new OthelloApp(input, output);
-        app.run();
-    }
-
     public void run() {
         output.writeLine("Welcome to Othello");
 
@@ -97,5 +89,13 @@ public class OthelloApp {
 
         Player winner = game.pointsFor(Player.X) > game.pointsFor(Player.O) ? Player.X : Player.O;
         output.writeLine("Player " + winner + " wins! ( " + game.pointsFor(winner) + " vs " + game.pointsFor(Player.opponentOf(winner)) + " )");
+    }
+
+    public static void main(String[] args) {
+        Reader input = new InputStreamReader(System.in);
+        OutputWriter output = new OutputWriter();
+
+        OthelloApp app = new OthelloApp(input, output);
+        app.run();
     }
 }
