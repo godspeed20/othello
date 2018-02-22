@@ -236,36 +236,6 @@ public class BoardTest {
         assertThat("Player Y has moves", board.playerCanMakeAMove(), equalTo(true));
     }
 
-    private static void assertNonPermittedPosition(String position) {
-        Board board = Board.newBoard();
-        try {
-            board.validateAndApply(position);
-            fail("invalid position " + position);
-        } catch (NonPermittedMoveException e) {
-            assertThat(e.getMessage(), equalTo("Position " + position + " is not adjacent to an existing piece and so is not a valid move, please enter a coordinate permissible to you"));
-        }
-    }
-
-    private static void assertAlreadyTakenPosition(String position) {
-        Board board = Board.newBoard();
-        try {
-            board.validateAndApply(position);
-            fail("position " + position + " should be taken");
-        } catch (NonPermittedMoveException e) {
-            assertThat(e.getMessage(), equalTo("Position " + position + " is already taken and so is not a valid move, please enter a coordinate permissible to you"));
-        }
-    }
-
-    private static void assertCannotBePlayedByPlayer(String position) {
-        Board board = Board.newBoard();
-        try {
-            board.validateAndApply(position);
-            fail("position " + position + " should not be possible");
-        } catch (NonPermittedMoveException e) {
-            assertThat(e.getMessage(), equalTo("Position " + position + " is not permitted for you to play and so is not a valid move, please enter a coordinate permissible to you"));
-        }
-    }
-
     @Test
     public void newBoardNextPlayerIsA() {
         Board board = Board.newBoard();
@@ -514,5 +484,35 @@ public class BoardTest {
         assertThat(newBoard.currentPlayer, equalTo(Player.O));
         assertThat(newBoard.pointsFor(Player.X), equalTo(4L));
         assertThat(newBoard.pointsFor(Player.O), equalTo(1L));
+    }
+
+    private static void assertCannotBePlayedByPlayer(String position) {
+        Board board = Board.newBoard();
+        try {
+            board.validateAndApply(position);
+            fail("position " + position + " should not be possible");
+        } catch (NonPermittedMoveException e) {
+            assertThat(e.getMessage(), equalTo("Position " + position + " is not permitted for you to play and so is not a valid move, please enter a coordinate permissible to you"));
+        }
+    }
+
+    private static void assertAlreadyTakenPosition(String position) {
+        Board board = Board.newBoard();
+        try {
+            board.validateAndApply(position);
+            fail("position " + position + " should be taken");
+        } catch (NonPermittedMoveException e) {
+            assertThat(e.getMessage(), equalTo("Position " + position + " is already taken and so is not a valid move, please enter a coordinate permissible to you"));
+        }
+    }
+
+    private static void assertNonPermittedPosition(String position) {
+        Board board = Board.newBoard();
+        try {
+            board.validateAndApply(position);
+            fail("invalid position " + position);
+        } catch (NonPermittedMoveException e) {
+            assertThat(e.getMessage(), equalTo("Position " + position + " is not adjacent to an existing piece and so is not a valid move, please enter a coordinate permissible to you"));
+        }
     }
 }
